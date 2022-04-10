@@ -1,0 +1,158 @@
+@page "/GroceryStore"
+<h1>Add the Products</h1>
+
+@if (groceryIsle.Count != 0)
+{
+}
+
+
+<ul>
+    @if (groceryIsle.Count == 0)
+    {
+        <button class="btn btn-primary" @onclick="AddProducts">Add Products</button><br><br>
+    }
+    @foreach (var GroceryIsle in groceryIsle)
+    {
+        <li><button class="btn btn-default" @onclick="() =>groceryItem=GetItems(GroceryIsle.isleNum)">@GroceryIsle.isleName</button></li>
+
+        }
+
+
+    <br><br>
+    <h3>@currentIsle</h3>
+
+
+    <br><br>
+    @if (groceryIsle.Count != 0)
+    {
+        <table class="table">
+            <tr>
+                <th>code</th>
+                <th>foodname</th>
+                <th>foodtype</th>
+                <th>price</th>
+                <th>quantity</th>
+
+            </tr>
+            @foreach (var GroceryItem in groceryItem)
+            {
+                <tr>
+                    <td>@GroceryItem.code</td>
+                    <td>@GroceryItem.foodname</td>
+                    <td>@GroceryItem.foodtype</td>
+                    <td>@GroceryItem.price</td>
+                    <td><button class="btn btn-default" @onclick="() => GroceryItem.DecreaseQuantity()">-</button>  @GroceryItem.quantity<button class="btn btn-default"
+                    @onclick="() => GroceryItem.IncreaseQuantity()">+</button></td>
+                </tr>
+            }
+        </table>
+    }
+
+</ul>
+
+
+@code {
+
+
+    private List<GroceryIsle> groceryIsle = new List<GroceryIsle>();
+    private List<Fooditem> groceryItem = new List<Fooditem>();
+    private string currentIsle = "";
+    private void AddProducts()
+    {
+        Console.Write("worked");
+        GroceryIsle firstproduct = new GroceryIsle();
+        firstproduct.isleName = "fruits";
+        firstproduct.isleNum = 1;
+        firstproduct.FoodList.Add(new Fooditem
+        {
+            code = 002,
+            foodname = "Apple",
+            foodtype = "veg",
+            price= 5,
+        });
+
+        firstproduct.FoodList.Add(new Fooditem
+        {
+            code = 1020,
+            foodname = "Mango",
+            foodtype = "veg",
+            price= 20,
+        });
+
+        firstproduct.FoodList.Add(new Fooditem
+        {
+            code = 5001,
+            foodname = "jack",
+            foodtype = "veg",
+            price=2,
+        });
+
+        GroceryIsle secondproduct = new GroceryIsle();
+        secondproduct.isleName = "Grocery";
+        secondproduct.isleNum = 2;
+        secondproduct.FoodList.Add(new Fooditem
+        {
+            code = 2001,
+            foodname = "Sugar",
+            foodtype = "veg",
+            price=2,
+        });
+        secondproduct.FoodList.Add(new Fooditem
+        {
+            code =2001,
+            foodname = "salt",
+            foodtype ="veg",
+            price=11,
+        });
+        secondproduct.FoodList.Add(new Fooditem
+        {
+            code = 2010,
+            foodname = "sweet",
+            foodtype ="veg",
+            price=1,
+        });
+
+
+        GroceryIsle Thirdproduct = new GroceryIsle();
+        Thirdproduct.isleName = "Sause";
+        Thirdproduct.isleNum = 3;
+        Thirdproduct.FoodList.Add(new Fooditem
+        {
+            code = 5002,
+            foodname = "Creamy sause",
+            foodtype = "veg",
+            price=1,
+        });
+        Thirdproduct.FoodList.Add(new Fooditem
+        {
+            code = 20202,
+            foodname = "BBQ sause",
+            foodtype ="veg",
+            price=2,
+        });
+        Thirdproduct.FoodList.Add(new Fooditem
+        {
+            code = 8521,
+            foodname = "Peprcon rance",
+            foodtype ="veg",
+            price=8,
+        });
+
+        groceryIsle.Add(firstproduct);
+        groceryIsle.Add(secondproduct);
+        groceryIsle.Add(Thirdproduct);
+    }
+
+    private List<Fooditem> GetItems(int isleNumber)
+    {
+        foreach (var GroceryIsle in groceryIsle)
+        {
+            if (GroceryIsle.isleNum == isleNumber)
+            {
+                currentIsle = GroceryIsle.isleName;
+                return GroceryIsle.FoodList;
+            }
+        }
+        return new List<Fooditem>();
+    }
+}
